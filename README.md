@@ -85,6 +85,27 @@ jupyter lab                        # 浏览器打开给出的 http://localhost:8
 |----------|----------|------------------|
 | `notebooks/01-environment-hello.ipynb` | Python、依赖版本、LLM Key 连通 | 模型回复 + `L0 env ok` |
 | `notebooks/02-min-graph.ipynb` | 最小 Graph（单节点 + 条件边）完整 invoke | 图结构 + 结果 + `L0 graph ok` |
+| `notebooks/04-memory.ipynb` | Thread Memory：同 thread 续聊 / 异 thread 失忆 | `04 short-term memory ok` / `04 long-term memory ok` |
+| `notebooks/04-memory-postgres-demo.ipynb` | PostgresSaver 跨进程持久化 | `04 memory postgres persistence ok` |
+| `notebooks/05-tools.ipynb` | `calculate_teu` 挂进 agent ⇄ tools | `ToolMessage` + 合计 8 TEU + `L0 tools ok` |
+
+### 可选：04-memory Postgres 耐久（本地 Docker）
+
+`04-memory.ipynb` 使用 In-memory 后端，进程退出即清空。若要验证 `PostgresSaver` 落库（对照官方 `list` 示例）：
+
+```bash
+docker compose -f docker/memory-postgres/docker-compose.yml up -d
+uv sync --extra memory-postgres
+jupyter lab notebooks/04-memory-postgres-demo.ipynb
+```
+
+默认连接：`postgres://postgres:postgres@localhost:54329/postgres?sslmode=disable`  
+（账号同官方示例；端口 54329 映射容器内 5432，避免与本机 Postgres 冲突。）  
+在 notebook 中执行 **Run → Run All Cells**，看到 `04 memory postgres persistence ok` 即通过。清库：
+
+```bash
+docker compose -f docker/memory-postgres/docker-compose.yml down -v
+```
 
 可选：命令行快速冒烟（不替代 notebook 验证）：
 

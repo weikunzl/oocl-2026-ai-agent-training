@@ -1,0 +1,27 @@
+# 04-memory Postgres 耐久 demo（仅课堂用）
+# 启动：docker compose -f docker/memory-postgres/docker-compose.yml up -d
+# 停止：docker compose -f docker/memory-postgres/docker-compose.yml down
+# 清库：docker compose -f docker/memory-postgres/docker-compose.yml down -v
+#
+# 账号与官方示例一致（postgres/postgres）；宿主机端口用 54329，避免与本机 5432 冲突。
+
+services:
+  memory-postgres:
+    image: postgres:16-alpine
+    container_name: oocl-04-memory-postgres
+    ports:
+      - "54329:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - oocl_04_memory_pgdata:/var/lib/postgresql/data
+
+volumes:
+  oocl_04_memory_pgdata:
