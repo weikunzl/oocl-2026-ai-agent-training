@@ -1,7 +1,8 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "hello": "./src/hello_agent/graph.py:graph"
+    "hello": "./src/hello_agent/graph.py:graph",
+    "bacp": "./src/bacp_agent/agent.py:graph"
   },
   "env": ".env"
 }
