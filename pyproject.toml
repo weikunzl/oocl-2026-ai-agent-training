@@ -12,6 +12,9 @@ dependencies = [
   "pydantic>=2.13.4",
   "pydantic-settings>=2.15.0",
   "ipywidgets>=8.1.8",
+  "langchain-mcp-adapters>=0.3.2",
+  "fastmcp>=3.4.7",
+  "openai>=2.54.0",
 ]
 
 [project.optional-dependencies]
